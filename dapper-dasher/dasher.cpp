@@ -89,7 +89,7 @@ int main()
 
             nebularRectangle.x = nebFrame * nebularRectangle.width;
             nebFrame++;
-            if (nebFrame > 8)
+            if (nebFrame > 7)
             {
                 nebFrame = 0;
             }
