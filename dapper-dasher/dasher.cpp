@@ -10,6 +10,31 @@ struct AnimData
     Color color;
 };
 
+bool isOnGround(AnimData data, int windowHeight)
+{
+    return data.pos.y >= windowHeight - data.rect.height;
+}
+
+AnimData updateAnimData(AnimData data, float deltaTime, int maxFrame)
+{
+    data.runningTime += deltaTime;
+
+    if (data.runningTime >= data.updateTime)
+    {
+        data.runningTime = 0.0;
+
+        // Update animation frame
+        data.rect.x = data.frame * data.rect.width;
+        data.frame++;
+        if (data.frame > maxFrame)
+        {
+            data.frame = 0;
+        }
+    }
+
+    return data;
+}
+
 int main()
 {
     int windowDimensions[2]{512, 380};
@@ -70,7 +95,7 @@ int main()
         ClearBackground(WHITE);
 
         // perform ground check
-        if (scarfyData.pos.y >= windowDimensions[1] - scarfyData.rect.height)
+        if (isOnGround(scarfyData, windowDimensions[1]))
         {
             // rectangle is on the ground
             isInAir = false;
@@ -102,36 +127,13 @@ int main()
         // update nebular animation frame
         for (int i = 0; i < sizeOfNebulae; i++)
         {
-            nebulae[i].runningTime += dT;
-            if (nebulae[i].runningTime >= nebulae[i].updateTime)
-            {
-                nebulae[i].runningTime = 0.0;
-
-                nebulae[i].rect.x = nebulae[i].frame * nebulae[i].rect.width;
-                nebulae[i].frame++;
-                if (nebulae[i].frame > 7)
-                {
-                    nebulae[i].frame = 0;
-                }
-            }
+            nebulae[i] = updateAnimData(nebulae[i], dT, 7);
         }
 
         // update scarfy's animation frame
         if (!isInAir)
         {
-            scarfyData.runningTime += dT;
-            if (scarfyData.runningTime >= scarfyData.updateTime)
-            {
-                scarfyData.runningTime = 0.0;
-
-                // Update animation frame
-                scarfyData.rect.x = scarfyData.frame * scarfyData.rect.width;
-                scarfyData.frame++;
-                if (scarfyData.frame > 5)
-                {
-                    scarfyData.frame = 0;
-                }
-            }
+            scarfyData = updateAnimData(scarfyData, dT, 5);
         }
 
         // draw nebular
