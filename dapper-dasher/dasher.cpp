@@ -11,10 +11,9 @@ struct AnimData
 
 int main()
 {
-    const int windowWidth{512};
-    const int windowHeight{380};
+    int windowDimensions[2] = {512, 380};
 
-    InitWindow(windowWidth, windowHeight, "Dapper Dasher");
+    InitWindow(windowDimensions[0], windowDimensions[1], "Dapper Dasher");
 
     bool isInAir{};
     // jump velocity (pixels/second)
@@ -28,17 +27,17 @@ int main()
     // AnimData for nebula
     AnimData nebData{
         {0.0, 0.0, nebularTexture.width / 8, nebularTexture.height / 8}, // Rectangle rec
-        {windowWidth, windowHeight - nebularTexture.height / 8},         // Vector2 pos
+        {windowDimensions[0], windowDimensions[1] - nebularTexture.height / 8},         // Vector2 pos
         0,                                                               // int frame
-        {1.0 / 12.0},                                                    // float updateTime
+        1.0 / 12.0,                                                      // float updateTime
         0                                                                // float runtime
     };
 
     AnimData neb2Data{
         {0.0, 0.0, nebularTexture.width / 8, nebularTexture.height / 8}, // Rectangle rec
-        {windowWidth + 300, windowHeight - nebularTexture.height / 8},   // Vector2 pos
+        {windowDimensions[0] + 300, windowDimensions[1] - nebularTexture.height / 8},   // Vector2 pos
         0,                                                               // int frame
-        {1.0 / 16.0},                                                    // float updateTime
+        1.0 / 16.0,                                                      // float updateTime
         0                                                                // float runtime
     };
 
@@ -46,22 +45,13 @@ int main()
 
     // scarfy variables
     Texture2D scarfyTexture = LoadTexture("textures/scarfy.png");
-    AnimData scarfyData;
-    scarfyData.rect.width = scarfyTexture.width / 6;
-    scarfyData.rect.height = scarfyTexture.height;
-    scarfyData.rect.x = 0;
-    scarfyData.rect.y = 0;
-    scarfyData.pos.x = windowWidth / 2 - scarfyData.rect.width / 2;
-    scarfyData.pos.y = windowHeight - scarfyData.rect.height;
-    scarfyData.frame = 0;
-    scarfyData.updateTime = 1.0 / 12.0;
-    scarfyData.runningTime = 0;
-
-    // animation frame
-    // int frame{};
-    // amount of time before we update the animation frame (12 times/second)
-    // float updateTime{1.0 / 12.0};
-    // float runningTime{};
+    AnimData scarfyData = {
+        {0.0, 0.0, scarfyTexture.width / 6, scarfyTexture.height},                            // Rectangle rect
+        {windowDimensions[0] / 2 - scarfyData.rect.width / 2, windowDimensions[1] - scarfyData.rect.height}, // Vector2 pos
+        0,                                                                                    // int frame
+        1.0 / 12.0,                                                                           // int updateTime
+        0                                                                                     // int runningTime
+    };
 
     int velocity{};
 
@@ -77,7 +67,7 @@ int main()
         ClearBackground(WHITE);
 
         // perform ground check
-        if (scarfyData.pos.y >= windowHeight - scarfyData.rect.height)
+        if (scarfyData.pos.y >= windowDimensions[1] - scarfyData.rect.height)
         {
             // rectangle is on the ground
             isInAir = false;
@@ -100,6 +90,7 @@ int main()
         // update nebular position
         nebData.pos.x += nebularVelocity * dT;
         neb2Data.pos.x += nebularVelocity * dT;
+
         // update scarfy position
         scarfyData.pos.y += velocity * dT;
 
