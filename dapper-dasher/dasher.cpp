@@ -97,10 +97,16 @@ int main()
 
     float collision{false};
 
+    InitAudioDevice();
+    Sound jumpSound = LoadSound("resources/jump.wav");
+
     SetTargetFPS(60);
 
     while (!WindowShouldClose())
     {
+        if (IsKeyDown(KEY_SPACE))
+            PlaySound(jumpSound);
+
         // Delta time (timeff since last frame)
         const float dT{GetFrameTime()};
 
@@ -219,6 +225,7 @@ int main()
         }
         else if (scarfyData.pos.x >= finishLine)
         {
+            // PlaySound(winSound);
             DrawText("You win!", windowDimensions[0] / 4, windowDimensions[1] / 2, 60, GREEN);
         }
         else
@@ -235,6 +242,8 @@ int main()
 
         EndDrawing();
     }
+
+    UnloadSound(jumpSound);
 
     UnloadTexture(background);
     UnloadTexture(midground);
