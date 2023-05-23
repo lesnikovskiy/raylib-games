@@ -99,13 +99,22 @@ int main()
 
     InitAudioDevice();
     Sound jumpSound = LoadSound("resources/jump.wav");
+    Music mainTheme = LoadMusicStream("resources/mario_theme.mp3");
+    Music loseGame = LoadMusicStream("resources/lose_game.mp3");
+    Music winGame = LoadMusicStream("resources/win_game.mp3");
+
+    PlayMusicStream(mainTheme);
 
     SetTargetFPS(60);
 
     while (!WindowShouldClose())
     {
+        UpdateMusicStream(mainTheme);
+
         if (IsKeyDown(KEY_SPACE))
+        {
             PlaySound(jumpSound);
+        }
 
         // Delta time (timeff since last frame)
         const float dT{GetFrameTime()};
@@ -222,11 +231,17 @@ int main()
         {
             // lose the game
             DrawText("Game Over!", windowDimensions[0] / 4, windowDimensions[1] / 2, 50, RED);
+            StopMusicStream(mainTheme);
+            PlayMusicStream(loseGame);
+            UpdateMusicStream(loseGame);
         }
         else if (scarfyData.pos.x >= finishLine)
         {
-            // PlaySound(winSound);
+            // win game
             DrawText("You win!", windowDimensions[0] / 4, windowDimensions[1] / 2, 60, GREEN);
+            StopMusicStream(mainTheme);
+            PlayMusicStream(winGame);
+            UpdateMusicStream(winGame);
         }
         else
         {
@@ -244,6 +259,9 @@ int main()
     }
 
     UnloadSound(jumpSound);
+    UnloadMusicStream(mainTheme);
+    UnloadMusicStream(loseGame);
+    UnloadMusicStream(winGame);
 
     UnloadTexture(background);
     UnloadTexture(midground);

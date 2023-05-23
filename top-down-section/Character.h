@@ -9,6 +9,7 @@ class Character
 public:
     Character(int winWidth, int winHeight);
     Vector2 getWorldPos() { return worldPos; }
+    Rectangle getCollisionRect();
     void tick(float deltaTime);
     void undoMovement();
 
@@ -31,6 +32,7 @@ private:
 
     float width{};
     float height{};
+    float scale{4.0f};
 };
 
 #endif

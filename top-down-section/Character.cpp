@@ -6,8 +6,17 @@ Character::Character(int winWidth, int winHeight)
     height = texture.height;
 
     screenPos = {
-        (float)winWidth / 2.0f - 4.0f * (0.5f * width / 6.0f),
-        (float)winHeight / 2.0f - 4.0f * (0.5f * height)};
+        static_cast<float>(winWidth) / 2.0f - scale * (0.5f * width / 6.0f),
+        static_cast<float>(winHeight) / 2.0f - scale * (0.5f * height)};
+}
+
+Rectangle Character::getCollisionRect()
+{
+    return Rectangle{
+        screenPos.x,
+        screenPos.y,
+        width * scale,
+        height * scale};
 }
 
 void Character::tick(float deltaTime)
@@ -51,7 +60,7 @@ void Character::tick(float deltaTime)
 
     // draw the character
     Rectangle source{frame * width, 0.f, rightLeft * width, height};
-    Rectangle dest{screenPos.x, screenPos.y, 4.0f * width, 4.0f * height};
+    Rectangle dest{screenPos.x, screenPos.y, scale * width, scale * height};
     DrawTexturePro(texture, source, dest, Vector2{}, 0.f, WHITE);
 }
 
