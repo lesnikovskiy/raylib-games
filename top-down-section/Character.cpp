@@ -8,11 +8,11 @@ Character::Character(int winWidth, int winHeight)
     screenPos = {
         static_cast<float>(winWidth) / 2.0f - scale * (0.5f * width / 6.0f),
         static_cast<float>(winHeight) / 2.0f - scale * (0.5f * height)};
-} 
+}
 
 void Character::tick(float deltaTime)
 {
-    worldPosLastFrame = worldPos;
+    BaseCharacter::tick(deltaTime);
 
     Vector2 direction{};
 
@@ -36,21 +36,4 @@ void Character::tick(float deltaTime)
     {
         texture = idle;
     }
-
-    // update animation frame
-    runningTime += deltaTime;
-    if (runningTime >= updateTime)
-    {
-        runningTime = 0.f;
-        frame++;
-        if (frame > maxFrames)
-        {
-            frame = 0;
-        }
-    }
-
-    // draw the character
-    Rectangle source{frame * width, 0.f, rightLeft * width, height};
-    Rectangle dest{screenPos.x, screenPos.y, scale * width, scale * height};
-    DrawTexturePro(texture, source, dest, Vector2{}, 0.f, WHITE);
 }

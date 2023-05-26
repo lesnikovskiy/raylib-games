@@ -2,6 +2,7 @@
 #define BASE_CHARACTER
 
 #include "raylib.h"
+#include "raymath.h"
 
 class BaseCharacter
 {
@@ -10,6 +11,7 @@ public:
     Vector2 getWorldPos() { return worldPos; }
     Rectangle getCollisionRect();
     void undoMovement();
+    virtual void tick(float deltaTime);
 
 protected:
     Texture2D texture{LoadTexture("characters/knight_idle_spritesheet.png")};
