@@ -1,6 +1,7 @@
 #include "raylib.h"
 #include "raymath.h"
 #include "Character.h"
+#include "Enemy.h"
 #include "Prop.h"
 
 int main()
@@ -15,6 +16,11 @@ int main()
     const float mapScale{4.0f};
 
     Character knight{windowWidth, windowHeight};
+
+    Enemy goblin{
+        Vector2{},
+        LoadTexture("characters/goblin_idle_spritesheet.png"),
+        LoadTexture("characters/goblin_run_spritesheet.png")};
 
     Prop props[2]{
         Prop{Vector2{600.f, 300.f}, LoadTexture("nature_tileset/Rock.png")},
@@ -59,6 +65,8 @@ int main()
                 knight.undoMovement();
             }
         }
+
+        goblin.tick(GetFrameTime());
 
         EndDrawing();
     }

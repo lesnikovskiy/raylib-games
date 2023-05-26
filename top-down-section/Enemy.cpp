@@ -1,16 +1,17 @@
-#include "Character.h"
+#include "Enemy.h"
 
-Character::Character(int winWidth, int winHeight)
+Enemy::Enemy(Vector2 pos, Texture2D idleTexture, Texture2D runTexture)
 {
+    worldPos = pos;
+    texture = idleTexture;
+    idle = idleTexture;
+    run = runTexture;
+
     width = texture.width / maxFrames;
     height = texture.height;
+}
 
-    screenPos = {
-        static_cast<float>(winWidth) / 2.0f - scale * (0.5f * width / 6.0f),
-        static_cast<float>(winHeight) / 2.0f - scale * (0.5f * height)};
-} 
-
-void Character::tick(float deltaTime)
+void Enemy::tick(float deltaTime)
 {
     worldPosLastFrame = worldPos;
 
