@@ -13,5 +13,6 @@ Enemy::Enemy(Vector2 pos, Texture2D idleTexture, Texture2D runTexture)
 
 void Enemy::tick(float deltaTime)
 {
+    screenPos = Vector2Subtract(worldPos, target->getWorldPos());
     BaseCharacter::tick(deltaTime);
 }
