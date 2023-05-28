@@ -8,10 +8,12 @@ class Character : public BaseCharacter
 {
 public:
     Character(int winWidth, int winHeight);
-    Vector2 getScreenPos() { return screenPos; }
+    virtual Vector2 getScreenPos() override;
     virtual void tick(float deltaTime) override;
 
 private:
+    int windowWidth{};
+    int windowHeight{};
 };
 
 #endif
