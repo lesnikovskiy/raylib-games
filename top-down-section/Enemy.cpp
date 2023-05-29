@@ -16,7 +16,7 @@ void Enemy::tick(float deltaTime)
 {
     // get toTarget
     velocity = Vector2Subtract(target->getScreenPos(), getScreenPos());
-    BaseCharacter::tick(deltaTime);
+    // BaseCharacter::tick(deltaTime);
 }
 
 Vector2 Enemy::getScreenPos()
