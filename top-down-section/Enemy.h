@@ -11,10 +11,11 @@ public:
     Enemy(Vector2 pos, Texture2D idleTexture, Texture2D runTexture);
     virtual void tick(float deltaTime) override;
     virtual Vector2 getScreenPos() override;
-    void setTarget(Character* character) { target = character; }
+    void setTarget(Character *character) { target = character; }
 
 private:
-    Character* target;
+    Character *target;
+    float damagePerSec{10.f};
 };
 
 #endif
